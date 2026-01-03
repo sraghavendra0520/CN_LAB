@@ -86,8 +86,7 @@ public class RED {
         System.out.print("Enter the number of packets: ");
         int n = sc.nextInt();
 
-        RandomEarlyDetection red =
-                new RandomEarlyDetection(min, max, prob, size);
+        RandomEarlyDetection red = new RandomEarlyDetection(min, max, prob, size);
 
         for (int i = 0; i < n; i++) {
             red.enqueue();
