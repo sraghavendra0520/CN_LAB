@@ -2,16 +2,13 @@ import java.util.*;
 
 public class RED {
 
-    // Inner class for RED Queue
-    static class RandomEarlyDetection {
-
+    public static class RandomEarlyDetection {
         private double minThreshold;
         private double maxThreshold;
         private double maxDropProb;
         private int queueSize;
         private int currentQueue;
 
-        // Constructor
         public RandomEarlyDetection(double min, double max, double prob, int size) {
             minThreshold = min;
             maxThreshold = max;
@@ -20,16 +17,15 @@ public class RED {
             currentQueue = 0;
         }
 
-        // Enqueue packet using RED
         public boolean enqueue() {
 
-            // Queue full → Tail Drop
+            // If queue is full, drop packet
             if (currentQueue >= queueSize) {
-                System.out.println("Packet dropped (Queue Full)");
+                System.out.println("Packet Dropped (Queue Full)");
                 return false;
             }
 
-            double dropProb = calculateDropProbability();
+            double dropProb = calcDropProb();
 
             // RED probabilistic drop
             if (dropProb > 0 && shouldDrop(dropProb)) {
@@ -37,36 +33,29 @@ public class RED {
                 return false;
             }
 
-            // Accept packet
             currentQueue++;
-            System.out.println("Packet enqueued. Current queue size: " + currentQueue);
+            System.out.println("Packet Enqueued. Current Queue Size: " + currentQueue);
             return true;
         }
 
-        // Calculate RED drop probability
-        private double calculateDropProbability() {
-
-            if (currentQueue < minThreshold) {
+        // Calculate drop probability based on RED
+        private double calcDropProb() {
+            if (currentQueue < minThreshold)
                 return 0.0;
-            }
-            else if (currentQueue >= maxThreshold) {
+            else if (currentQueue >= maxThreshold)
                 return 1.0;
-            }
-            else {
+            else
                 return maxDropProb *
-                       ((currentQueue - minThreshold) /
-                       (maxThreshold - minThreshold));
-            }
+                        ((currentQueue - minThreshold) / (maxThreshold - minThreshold));
         }
 
-        // Random drop decision
+        // Correct probabilistic drop condition
         private boolean shouldDrop(double prob) {
             Random random = new Random();
-            return random.nextDouble() < prob; // ✔ Correct condition
+            return random.nextDouble() < prob;
         }
     }
 
-    // Main method
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -77,7 +66,7 @@ public class RED {
         System.out.print("Enter the maximum threshold: ");
         double max = sc.nextDouble();
 
-        System.out.print("Enter the maximum drop probability(0-1): ");
+        System.out.print("Enter the maximum drop probability (0-1): ");
         double prob = sc.nextDouble();
 
         System.out.print("Enter the queue size: ");
