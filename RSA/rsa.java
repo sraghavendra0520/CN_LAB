@@ -26,7 +26,7 @@ class rsa {
                 Scanner sc=new Scanner(System.in);
                 rsa1.genKey(512);
                 System.out.print("Enter msg to encrypt: ");
-                String msg=sc.next();
+                String msg=sc.nextLine();
                 BigInteger m=new BigInteger(msg.getBytes());
                 BigInteger cipher=rsa1.encrypt(m);
                 System.out.print("Encrypted data: "+cipher);
